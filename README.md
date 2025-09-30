@@ -1,2 +1,2 @@
-# trans-ai
+# TransMod
 Mechanistically-Informed AI for Translation Regulation
