@@ -18,24 +18,118 @@ Transmod integrates ribosome profiling, RNA structure, modifications, and protei
 
 ## Installation
 
-### From PyPI (once published)
+Transmod is organized with modular dependencies so you can install only what you need for your specific workflow.
+
+### Quick Start (Recommended)
+
+For most users, install with classical ML or deep learning support:
+
 ```bash
-pip install transmod
+# For classical machine learning workflows
+pip install -e ".[classical-ml]"
+
+# For deep learning workflows  
+pip install -e ".[deep-learning]"
+
+# For complete functionality
+pip install -e ".[complete]"
 ```
 
-### From source (development)
+### Modular Installation Options
+
+#### Core Installation (Minimal)
 ```bash
-git clone https://github.com/yourusername/transmod.git
+# Just basic data handling (numpy, pandas, scipy, etc.)
+pip install -e .
+```
+
+#### By Use Case
+```bash
+# Classical ML: scikit-learn, LightGBM + bioinformatics + plotting
+pip install -e ".[classical-ml]"
+
+# Deep Learning: PyTorch, Lightning + bioinformatics + plotting  
+pip install -e ".[deep-learning]"
+
+# Full Analysis: All ML tools + interpretation
+pip install -e ".[full-analysis]"
+
+# Complete: Everything including Jupyter support
+pip install -e ".[complete]"
+```
+
+#### By Component
+```bash
+# Individual components
+pip install -e ".[bio]"        # BioPython for sequence analysis
+pip install -e ".[ml]"         # Classical ML (scikit-learn, LightGBM)
+pip install -e ".[dl]"         # Deep learning (PyTorch, Lightning)
+pip install -e ".[plots]"      # Visualization (matplotlib, seaborn)
+pip install -e ".[interp]"     # Model interpretation (SHAP, Captum)
+pip install -e ".[notebook]"   # Jupyter notebook support
+pip install -e ".[dev]"        # Development tools
+
+# Custom combinations
+pip install -e ".[bio,ml,interp]"  # Classical ML + interpretation
+pip install -e ".[bio,dl,plots,dev]"  # Deep learning + development
+```
+
+### For Snakemake Workflows
+
+Create environment files for specific workflows:
+
+**Classical ML environment** (`envs/classical_ml.yaml`):
+```yaml
+name: transmod-classical
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python>=3.12
+  - pip
+  - pip:
+    - -e ".[classical-ml]"
+```
+
+**Deep Learning environment** (`envs/deep_learning.yaml`):
+```yaml
+name: transmod-dl
+channels:
+  - conda-forge
+  - pytorch
+dependencies:
+  - python>=3.12
+  - pip
+  - pip:
+    - -e ".[deep-learning]"
+```
+
+### Development Installation
+
+```bash
+git clone https://github.com/katarinagresova/transmod.git
 cd transmod
-pip install -e ".[dev]"
+pip install -e ".[dev,complete]"
 ```
 
-### With conda
-```bash
-conda create -n transmod python=3.12
-conda activate transmod
-pip install transmod
-```
+### Dependency Groups Explained
+
+| Group | Contains | Use Case |
+|-------|----------|----------|
+| `bio` | BioPython | Sequence analysis, FASTA/GenBank parsing |
+| `ml` | scikit-learn, LightGBM | Classical machine learning |
+| `dl` | PyTorch, Lightning | Deep learning models |
+| `plots` | matplotlib, seaborn | Data visualization |
+| `interp` | SHAP, Captum | Model interpretation |
+| `notebook` | Jupyter, IPython | Interactive analysis |
+| `dev` | pytest, ruff, mypy | Development tools |
+| `docs` | Sphinx | Documentation building |
+
+**Pre-configured combinations:**
+- `classical-ml` = `bio + ml + plots`
+- `deep-learning` = `bio + dl + plots`  
+- `full-analysis` = `bio + ml + dl + plots + interp`
+- `complete` = All components including notebooks
 
 ## Quick Start
 
